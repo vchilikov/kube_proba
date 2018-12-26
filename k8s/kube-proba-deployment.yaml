@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-proba
+  labels:
+    app: kube-proba
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kube-proba
+  template:
+    metadata:
+      labels:
+        app: kube-proba
+    spec:
+      containers:
+      - name: kube-proba
+        image: registry.hub.docker.com/vchilikov/kube_proba
+        command: ["python", "app.py"]
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: REDIS_HOST
+          value: redis
+        ports:
+        - containerPort: 5000
